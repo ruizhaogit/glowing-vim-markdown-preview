@@ -21,7 +21,8 @@ function! ToggleMarkdownPreview()
   
   " No preview found, create one
   let l:source_winnr = winnr()
-  let l:width = float2nr(&columns * 0.5)
+  " let l:width = float2nr(&columns * 0.5)
+  let l:width = float2nr(&columns * 0.65)
   
   if executable('glow') && has('terminal')
     " Create terminal directly with glow
@@ -29,9 +30,10 @@ function! ToggleMarkdownPreview()
     let l:content = getline(1, '$')
     call writefile(l:content, l:temp_file)
     
-    execute 'rightbelow vertical terminal glow -s dark -w ' . (l:width - 4) . ' ' . l:temp_file
+    execute 'leftabove vertical terminal glow -s dark -w ' . (l:width - 4) . ' ' . l:temp_file
     execute 'vertical resize ' . l:width
-    
+    vertical resize 9999
+
     " Position cursor at top after glow completes rendering
     call timer_start(500, {-> feedkeys("\<C-\>\<C-n>gg")})
     
@@ -39,7 +41,7 @@ function! ToggleMarkdownPreview()
     call timer_start(2000, {-> delete(l:temp_file)})
   else
     " Basic fallback - create buffer with content directly
-    execute 'rightbelow vnew'
+    execute 'leftabove vnew'
     execute 'vertical resize ' . l:width
     
     setlocal buftype=nofile noswapfile nobuflisted
@@ -63,7 +65,8 @@ endfunction
 function! ResizeMarkdownPreview()
   for winnr in range(1, winnr('$'))
     if getwinvar(winnr, 'is_markdown_preview', 0)
-      let l:width = float2nr(&columns * 0.5)
+      " let l:width = float2nr(&columns * 0.5)
+      let l:width = float2nr(&columns * 0.65)
       execute winnr . 'wincmd w'
       execute 'vertical resize ' . l:width
       execute 'wincmd p'
