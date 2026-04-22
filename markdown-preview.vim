@@ -22,7 +22,7 @@ function! ToggleMarkdownPreview()
   " No preview found, create one
   let l:source_winnr = winnr()
   " let l:width = float2nr(&columns * 0.5)
-  let l:width = float2nr(&columns * 0.65)
+  let l:width = float2nr(&columns * 0.75)
   
   if executable('glow') && has('terminal')
     " Create terminal directly with glow
@@ -66,7 +66,7 @@ function! ResizeMarkdownPreview()
   for winnr in range(1, winnr('$'))
     if getwinvar(winnr, 'is_markdown_preview', 0)
       " let l:width = float2nr(&columns * 0.5)
-      let l:width = float2nr(&columns * 0.65)
+      let l:width = float2nr(&columns * 0.75)
       execute winnr . 'wincmd w'
       execute 'vertical resize ' . l:width
       execute 'wincmd p'
